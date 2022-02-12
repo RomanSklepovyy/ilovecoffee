@@ -18,7 +18,9 @@ import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { ParseIntPipe } from '../common/pipes/parse-int.pipe';
+import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('coffees')
 @Controller('coffees')
 export class CoffeesController {
   constructor(
@@ -26,6 +28,7 @@ export class CoffeesController {
     @Inject(REQUEST) private readonly request: Request,
   ) {}
 
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Get()
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     return this.coffeeService.findAll(paginationQuery);
